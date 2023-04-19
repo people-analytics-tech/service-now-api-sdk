@@ -55,7 +55,7 @@ class Attachment(BaseAttachmentsAPI):
                     next_link = (
                         result.links.get("next", {})
                         .get("url", "")
-                        .replace(f"{os.environ['ITSM_SERVICENOW_URL']}/", "")
+                        .replace(f"{os.environ['SERVICENOW_URL']}/", "")
                     )
                     data = self.__request_helper(data, next_link=next_link)
 

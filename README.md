@@ -13,10 +13,10 @@ pip install service-now-api-sdk
 To use service-now-api-sdk library, you need set four environment variables:
 ```dotenv
 # ---DOTENV EXAMPLE---
-ITSM_SERVICENOW_URL=https://service-now.com # base url of you servicenow server
-ITSM_SERVICENOW_API_TOKEN= # servicenow auth token
-ITSM_SERVICENOW_API_USER= # servicenow user
-ITSM_SERVICENOW_API_PASSWORD= # servicenow user password
+SERVICENOW_URL=https://service-now.com # base url of you servicenow server
+SERVICENOW_API_TOKEN= # servicenow auth token
+SERVICENOW_API_USER= # servicenow user
+SERVICENOW_API_PASSWORD= # servicenow user password
 
 # you can choose beetwen user and password or api token to authentication
 ```
@@ -26,10 +26,10 @@ On coding in Windows OS, you need set the environment variables before import se
 ```python
 import os
 # set environment variables before import service-now-api-sdk library
-os.environ["ITSM_SERVICENOW_URL"] = "https://your-service-now-base-path.com"
-os.environ["ITSM_SERVICENOW_API_TOKEN"] = "Your api token"
-os.environ["ITSM_SERVICENOW_API_USER"] = "your.user.email@domain.com"
-os.environ["ITSM_SERVICENOW_API_PASSWORD"] = "your password"
+os.environ["SERVICENOW_URL"] = "https://your-service-now-base-path.com"
+os.environ["SERVICENOW_API_TOKEN"] = "Your api token"
+os.environ["SERVICENOW_API_USER"] = "your.user.email@domain.com"
+os.environ["SERVICENOW_API_PASSWORD"] = "your password"
 
 from service_now_api_sdk.sdk import Records
 ```

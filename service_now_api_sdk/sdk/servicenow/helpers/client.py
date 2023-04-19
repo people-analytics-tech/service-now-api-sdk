@@ -4,10 +4,10 @@ from functools import wraps
 import requests
 
 from service_now_api_sdk.settings import (
-    ITSM_SERVICENOW_API_PASSWORD,
-    ITSM_SERVICENOW_API_TOKEN,
-    ITSM_SERVICENOW_API_USER,
-    ITSM_SERVICENOW_URL,
+    SERVICENOW_API_PASSWORD,
+    SERVICENOW_API_TOKEN,
+    SERVICENOW_API_USER,
+    SERVICENOW_URL,
 )
 
 
@@ -19,8 +19,8 @@ def headers_replace(f):
             "Content-Type": "application/json",
         }
 
-        if ITSM_SERVICENOW_API_TOKEN:
-            headers["Authorization"] = (f"Bearer {ITSM_SERVICENOW_API_TOKEN}",)
+        if SERVICENOW_API_TOKEN:
+            headers["Authorization"] = (f"Bearer {SERVICENOW_API_TOKEN}",)
 
         if kwargs.get("headers"):
             headers = {**headers, **kwargs.get["headers"]}
@@ -33,7 +33,7 @@ def headers_replace(f):
 
 
 class Client:
-    base_url = ITSM_SERVICENOW_URL
+    base_url = SERVICENOW_URL
     default_path = ""
 
     @headers_replace
@@ -51,7 +51,7 @@ class Client:
         if params is None:
             params = {}
 
-        if ITSM_SERVICENOW_API_TOKEN:
+        if SERVICENOW_API_TOKEN:
             return requests.request(
                 method=method,
                 url=f"{self.base_url}/{path}",
@@ -60,14 +60,14 @@ class Client:
                 params=params,
             )
 
-        if ITSM_SERVICENOW_API_USER and ITSM_SERVICENOW_API_PASSWORD:
+        if SERVICENOW_API_USER and SERVICENOW_API_PASSWORD:
             return requests.request(
                 method=method,
                 url=f"{self.base_url}/{path}",
                 headers=headers,
                 data=json.dumps(data),
                 params=params,
-                auth=(ITSM_SERVICENOW_API_USER, ITSM_SERVICENOW_API_PASSWORD),
+                auth=(SERVICENOW_API_USER, SERVICENOW_API_PASSWORD),
             )
 
     def post(
