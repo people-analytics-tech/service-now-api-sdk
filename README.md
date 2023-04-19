@@ -1,6 +1,7 @@
 # service_now_api_sdk
 [![PyPI Latest Release](https://img.shields.io/pypi/v/service-now-api-sdk.svg)](https://pypi.org/project/service-now-api-sdk/)
 [![Downloads](https://pepy.tech/badge/service-now-api-sdk/month)](https://pepy.tech/project/service-now-api-sdk)
+[![GitHub Repository](https://pypi.org/project/service-now-api-sdk/)
 
 Interact with ServiceNow functionalities within your python application, includes the ability to perform create, read, update, and delete (CRUD) operations on existing tables, insert data into, retrieve information from and submit tickets.
 ## Installation
