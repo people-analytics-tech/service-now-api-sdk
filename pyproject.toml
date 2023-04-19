@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "service_now_api_sdk"
-version = "0.0.18"
+version = "0.0.19"
 description = "Service Now API SDK is used to facilitate integrations, automations and also code reuse"
 authors = [
     "Guilherme Laercio da Silva <guilhermelaerciodasilva@gmail.com>",
