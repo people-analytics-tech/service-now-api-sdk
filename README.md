@@ -3,7 +3,7 @@
 
 Check out our [GitHub Repository](https://github.com/guilhermelaercio/service_now_api_sdk)!
 
-Check out [ServiceNow API documentation](https://docs.servicenow.com/en-US/bundle/sandiego-application-development/page/build/applications/concept/api-rest.html).
+Check out [ServiceNow REST API documentation](https://docs.servicenow.com/en-US/bundle/sandiego-application-development/page/build/applications/concept/api-rest.html).
 
 Interact with ServiceNow functionalities within your python application, includes the ability to perform create, read, update, and delete (CRUD) operations on existing tables, insert data into, retrieve information from and submit tickets.
 ## Installation
