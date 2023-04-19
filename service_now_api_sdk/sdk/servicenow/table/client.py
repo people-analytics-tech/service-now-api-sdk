@@ -1,9 +1,9 @@
 import os
 from time import sleep
 
-from people_analytics_itsm_sdk.sdk.servicenow.helpers.client import Client
-from people_analytics_itsm_sdk.sdk.servicenow.helpers.query_builder import QueryBuilder
-from people_analytics_itsm_sdk.sdk.servicenow.table.exceptions import (
+from service_now_api_sdk.sdk.servicenow.helpers.client import Client
+from service_now_api_sdk.sdk.servicenow.helpers.query_builder import QueryBuilder
+from service_now_api_sdk.sdk.servicenow.table.exceptions import (
     ManagerRetriveException,
     RecordFilterException,
     RecordRetriesException,

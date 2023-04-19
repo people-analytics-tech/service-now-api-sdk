@@ -1,8 +1,11 @@
 [tool.poetry]
-name = "people_analytics_itsm_sdk"
+name = "service_now_api_sdk"
 version = "0.0.17"
-description = "People analytics itsm sdk is used to facilitate integrations and also code reuse"
-authors = ["Stone People Analytics <systems-techpeople@stone.com.br>"]
+description = "Service Now API SDK is used to facilitate integrations, automations and also code reuse"
+authors = [
+    { name="Guilherme Laércio da Silva", email="guilhermelaerciodasilva@gmail.com" },
+    { name="Stone People Analytic", email="systems-techpeople@stone.com.br" },
+]
 readme = "README.md"
 
 [tool.poetry.dependencies]

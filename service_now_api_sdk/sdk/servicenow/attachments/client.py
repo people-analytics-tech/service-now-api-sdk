@@ -1,13 +1,13 @@
 import os
 from time import sleep
 
-from people_analytics_itsm_sdk.sdk.servicenow.attachments.exceptions import (
+from service_now_api_sdk.sdk.servicenow.attachments.exceptions import (
     DeleteAttachment,
     DownloadAttachment,
     RecordFilterException,
 )
-from people_analytics_itsm_sdk.sdk.servicenow.helpers.client import Client
-from people_analytics_itsm_sdk.sdk.servicenow.helpers.query_builder import QueryBuilder
+from service_now_api_sdk.sdk.servicenow.helpers.client import Client
+from service_now_api_sdk.sdk.servicenow.helpers.query_builder import QueryBuilder
 
 
 class BaseAttachmentsAPI:

@@ -3,7 +3,7 @@ from functools import wraps
 
 import requests
 
-from people_analytics_itsm_sdk.settings import (
+from service_now_api_sdk.settings import (
     ITSM_SERVICENOW_API_PASSWORD,
     ITSM_SERVICENOW_API_TOKEN,
     ITSM_SERVICENOW_API_USER,

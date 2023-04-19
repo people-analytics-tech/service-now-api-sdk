@@ -3,7 +3,7 @@ from datetime import timezone
 
 import six
 
-from people_analytics_itsm_sdk.sdk.servicenow.table.exceptions import (
+from service_now_api_sdk.sdk.servicenow.table.exceptions import (
     QueryEmpty,
     QueryExpressionError,
     QueryMissingField,

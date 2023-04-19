@@ -31,14 +31,14 @@ os.environ["ITSM_SERVICENOW_API_TOKEN"] = "Your api token"
 os.environ["ITSM_SERVICENOW_API_USER"] = "your.user.email@domain.com"
 os.environ["ITSM_SERVICENOW_API_PASSWORD"] = "your password"
 
-from people_analytics_itsm_sdk.sdk import Records
+from service_now_api_sdk.sdk import Records
 ```
 # Example Usage
 
 ## Get data from servicenow table
 To get data from servicenow table, we use ``Records`` class.
 ```python
-from people_analytics_itsm_sdk.sdk import Records
+from service_now_api_sdk.sdk import Records
 
 
 # This code get all records in one servicenow table
@@ -52,7 +52,7 @@ table_data = records.all() # all() method return all records
 You can apply filters and select columns in the table using ``Records().query`` method. For example:
 ```python
 from datetime import datetime, timedelta
-from people_analytics_itsm_sdk.sdk import Records
+from service_now_api_sdk.sdk import Records
 
 
 table_name = "incident"
@@ -73,7 +73,7 @@ data = records.all() # return all records of query
 ## Update tables
 to create, delete and update records in a servicenow table, you can use ``Manager`` class.
 ```python
-from people_analytics_itsm_sdk.sdk import Manager
+from service_now_api_sdk.sdk import Manager
 
 
 table_name = "name of table you need update"
@@ -103,7 +103,7 @@ manager.delete(sys_id=register_delete_sys_id)
 ## Submit tickets
 To submit tickets, you can use ``ProducerServiceCatalog`` class.
 ```python
-from people_analytics_itsm_sdk.sdk import ProducerServiceCatalog
+from service_now_api_sdk.sdk import ProducerServiceCatalog
 
 
 survey_catalog_id = "id of your ticket survey in servicenow catalog"

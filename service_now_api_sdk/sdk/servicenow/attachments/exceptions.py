@@ -1,4 +1,4 @@
-from people_analytics_itsm_sdk.exceptions import ITSMException
+from service_now_api_sdk.exceptions import ITSMException
 
 
 class DownloadAttachment(ITSMException):
