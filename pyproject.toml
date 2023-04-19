@@ -3,8 +3,8 @@ name = "service_now_api_sdk"
 version = "0.0.17"
 description = "Service Now API SDK is used to facilitate integrations, automations and also code reuse"
 authors = [
-    { name="Guilherme Laércio da Silva", email="guilhermelaerciodasilva@gmail.com" },
-    { name="Stone People Analytic", email="systems-techpeople@stone.com.br" },
+    "Guilherme Laercio da Silva <guilhermelaerciodasilva@gmail.com>",
+    "Stone People Analytic <systems-techpeople@stone.com.br>"
 ]
 readme = "README.md"
 

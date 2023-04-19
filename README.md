@@ -1,16 +1,16 @@
-# people-analytics-itsm-sdk
-[![PyPI Latest Release](https://img.shields.io/pypi/v/people-analytics-itsm-sdk.svg)](https://pypi.org/project/people-analytics-itsm-sdk/)
-[![Downloads](https://pepy.tech/badge/people-analytics-itsm-sdk/month)](https://pepy.tech/project/people-analytics-itsm-sdk)
+# service_now_api_sdk
+[![PyPI Latest Release](https://img.shields.io/pypi/v/service-now-api-sdk.svg)](https://pypi.org/project/service-now-api-sdk/)
+[![Downloads](https://pepy.tech/badge/service-now-api-sdk/month)](https://pepy.tech/project/service-now-api-sdk)
 
 Interact with ServiceNow functionalities within your python application, includes the ability to perform create, read, update, and delete (CRUD) operations on existing tables, insert data into, retrieve information from and submit tickets.
 ## Installation
 ```sh
 # or PyPI
-pip install people-analytics-itsm-sdk
+pip install service-now-api-sdk
 ```
 
 # Environment variables
-To use people-analytics-itsm-sdk library, you need set four environment variables:
+To use service-now-api-sdk library, you need set four environment variables:
 ```dotenv
 # ---DOTENV EXAMPLE---
 ITSM_SERVICENOW_URL=https://service-now.com # base url of you servicenow server
@@ -22,10 +22,10 @@ ITSM_SERVICENOW_API_PASSWORD= # servicenow user password
 ```
 We recommended you to create a `.env` file in your project root to set environment variables.
 ## Coding in Windows OS
-On coding in Windows OS, you need set the environment variables before import people-analytics-itsm-sdk library
+On coding in Windows OS, you need set the environment variables before import service-now-api-sdk library
 ```python
 import os
-# set environment variables before import people-analytics-itsm-sdk library
+# set environment variables before import service-now-api-sdk library
 os.environ["ITSM_SERVICENOW_URL"] = "https://your-service-now-base-path.com"
 os.environ["ITSM_SERVICENOW_API_TOKEN"] = "Your api token"
 os.environ["ITSM_SERVICENOW_API_USER"] = "your.user.email@domain.com"
