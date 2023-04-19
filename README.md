@@ -2,7 +2,7 @@
 [![PyPI Latest Release](https://img.shields.io/pypi/v/people-analytics-itsm-sdk.svg)](https://pypi.org/project/people-analytics-itsm-sdk/)
 [![Downloads](https://pepy.tech/badge/people-analytics-itsm-sdk/month)](https://pepy.tech/project/people-analytics-itsm-sdk)
 
-Interact with various ServiceNow functionality within your python application, includes the ability to perform create, read, update, and delete (CRUD) operations on existing tables, insert data into, retrieve information from and submit tickets.
+Interact with ServiceNow functionalities within your python application, includes the ability to perform create, read, update, and delete (CRUD) operations on existing tables, insert data into, retrieve information from and submit tickets.
 ## Installation
 ```sh
 # or PyPI
