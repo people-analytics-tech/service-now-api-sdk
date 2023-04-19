@@ -4,7 +4,7 @@ Exemplo:
 
 ```python
 from datetime import datetime, timedelta
-from people_analytics_itsm_sdk.sdk import Records
+from service_now_api_sdk.sdk import Records
 
 records = Records(table="incident")
 

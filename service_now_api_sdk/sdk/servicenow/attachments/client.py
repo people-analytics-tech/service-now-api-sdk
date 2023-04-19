@@ -1,13 +1,13 @@
 import os
 from time import sleep
 
-from people_analytics_itsm_sdk.sdk.servicenow.attachments.exceptions import (
+from service_now_api_sdk.sdk.servicenow.attachments.exceptions import (
     DeleteAttachment,
     DownloadAttachment,
     RecordFilterException,
 )
-from people_analytics_itsm_sdk.sdk.servicenow.helpers.client import Client
-from people_analytics_itsm_sdk.sdk.servicenow.helpers.query_builder import QueryBuilder
+from service_now_api_sdk.sdk.servicenow.helpers.client import Client
+from service_now_api_sdk.sdk.servicenow.helpers.query_builder import QueryBuilder
 
 
 class BaseAttachmentsAPI:
@@ -55,7 +55,7 @@ class Attachment(BaseAttachmentsAPI):
                     next_link = (
                         result.links.get("next", {})
                         .get("url", "")
-                        .replace(f"{os.environ['ITSM_SERVICENOW_URL']}/", "")
+                        .replace(f"{os.environ['SERVICENOW_URL']}/", "")
                     )
                     data = self.__request_helper(data, next_link=next_link)
 

@@ -1,44 +1,46 @@
-# people-analytics-itsm-sdk
-[![PyPI Latest Release](https://img.shields.io/pypi/v/people-analytics-itsm-sdk.svg)](https://pypi.org/project/people-analytics-itsm-sdk/)
-[![Downloads](https://pepy.tech/badge/people-analytics-itsm-sdk/month)](https://pepy.tech/project/people-analytics-itsm-sdk)
+# ServiceNow API SDK
+[![PyPI Latest Release](https://img.shields.io/pypi/v/service-now-api-sdk.svg)](https://pypi.org/project/service-now-api-sdk/)
 
-Interact with various ServiceNow functionality within your python application, includes the ability to perform create, read, update, and delete (CRUD) operations on existing tables, insert data into, retrieve information from and submit tickets.
+Check out our [GitHub Repository](https://github.com/guilhermelaercio/service_now_api_sdk)!
+
+Check out [ServiceNow API documentation](https://docs.servicenow.com/en-US/bundle/sandiego-application-development/page/build/applications/concept/api-rest.html).
+
+Interact with ServiceNow functionalities within your python application, includes the ability to perform create, read, update, and delete (CRUD) operations on existing tables, insert data into, retrieve information from and submit tickets.
 ## Installation
 ```sh
-# or PyPI
-pip install people-analytics-itsm-sdk
+pip install service-now-api-sdk
 ```
 
 # Environment variables
-To use people-analytics-itsm-sdk library, you need set four environment variables:
+To use service-now-api-sdk library, you need set four environment variables:
 ```dotenv
 # ---DOTENV EXAMPLE---
-ITSM_SERVICENOW_URL=https://service-now.com # base url of you servicenow server
-ITSM_SERVICENOW_API_TOKEN= # servicenow auth token
-ITSM_SERVICENOW_API_USER= # servicenow user
-ITSM_SERVICENOW_API_PASSWORD= # servicenow user password
+SERVICENOW_URL=https://service-now.com # base url of you servicenow server
+SERVICENOW_API_TOKEN= # servicenow auth token
+SERVICENOW_API_USER= # servicenow user
+SERVICENOW_API_PASSWORD= # servicenow user password
 
 # you can choose beetwen user and password or api token to authentication
 ```
 We recommended you to create a `.env` file in your project root to set environment variables.
 ## Coding in Windows OS
-On coding in Windows OS, you need set the environment variables before import people-analytics-itsm-sdk library
+On coding in Windows OS, you need set the environment variables before import service-now-api-sdk library
 ```python
 import os
-# set environment variables before import people-analytics-itsm-sdk library
-os.environ["ITSM_SERVICENOW_URL"] = "https://your-service-now-base-path.com"
-os.environ["ITSM_SERVICENOW_API_TOKEN"] = "Your api token"
-os.environ["ITSM_SERVICENOW_API_USER"] = "your.user.email@domain.com"
-os.environ["ITSM_SERVICENOW_API_PASSWORD"] = "your password"
+# set environment variables before import service-now-api-sdk library
+os.environ["SERVICENOW_URL"] = "https://your-service-now-base-path.com"
+os.environ["SERVICENOW_API_TOKEN"] = "Your api token"
+os.environ["SERVICENOW_API_USER"] = "your.user.email@domain.com"
+os.environ["SERVICENOW_API_PASSWORD"] = "your password"
 
-from people_analytics_itsm_sdk.sdk import Records
+from service_now_api_sdk.sdk import Records
 ```
 # Example Usage
 
 ## Get data from servicenow table
 To get data from servicenow table, we use ``Records`` class.
 ```python
-from people_analytics_itsm_sdk.sdk import Records
+from service_now_api_sdk.sdk import Records
 
 
 # This code get all records in one servicenow table
@@ -52,7 +54,7 @@ table_data = records.all() # all() method return all records
 You can apply filters and select columns in the table using ``Records().query`` method. For example:
 ```python
 from datetime import datetime, timedelta
-from people_analytics_itsm_sdk.sdk import Records
+from service_now_api_sdk.sdk import Records
 
 
 table_name = "incident"
@@ -73,7 +75,7 @@ data = records.all() # return all records of query
 ## Update tables
 to create, delete and update records in a servicenow table, you can use ``Manager`` class.
 ```python
-from people_analytics_itsm_sdk.sdk import Manager
+from service_now_api_sdk.sdk import Manager
 
 
 table_name = "name of table you need update"
@@ -103,7 +105,7 @@ manager.delete(sys_id=register_delete_sys_id)
 ## Submit tickets
 To submit tickets, you can use ``ProducerServiceCatalog`` class.
 ```python
-from people_analytics_itsm_sdk.sdk import ProducerServiceCatalog
+from service_now_api_sdk.sdk import ProducerServiceCatalog
 
 
 survey_catalog_id = "id of your ticket survey in servicenow catalog"
