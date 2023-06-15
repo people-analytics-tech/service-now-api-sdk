@@ -1,12 +1,15 @@
 [tool.poetry]
 name = "service_now_api_sdk"
-version = "0.0.19"
+version = "0.0.20"
 description = "Service Now API SDK is used to facilitate integrations, automations and also code reuse"
-authors = [
-    "Guilherme Laercio da Silva <guilhermelaerciodasilva@gmail.com>",
-    "Stone People Analytic <systems-techpeople@stone.com.br>"
+authors = ["stone_people_analytics <systems-techpeople@stone.com.br>"]
+maintainers = [
+    "guilherme_lsilva <manager.guilherme.silva@gmail.com>",
+    "diogo56 <diogo.amorim2001@gmail.com>",
 ]
 readme = "README.md"
+license = "MIT"
+repository = "https://github.com/people-analytics-tech/ service-now-api-sdk"
 
 [tool.poetry.dependencies]
 python = "^3.9"
