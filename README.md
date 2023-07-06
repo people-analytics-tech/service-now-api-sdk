@@ -119,6 +119,21 @@ producer_catalog = ProducerServiceCatalog()
 result = producer_catalog.store(catalog_id=survey_catalog_id, variables=variables)
 
 ```
+## Get ticket plataform URL by query or ticket number
+To get ticket plataform URL by query or ticket number, you can use ``aux_functions`` function.
+```python
+from service_now_api_sdk.sdk import aux_functions
+
+query = QueryBuilder().field('number').starts_with("RIT")
+
+url = aux_functions.make_platform_url_list_view(table_name="sc_req_item", query=query, interface="list_view")
+
+print(url)
+
+Output:
+    https://stone.service-now.com/sc_req_item_list.do?sysparm_query=numberSTARTSWITHRIT
+
+```
 # Query params
 
 ### field(field)
