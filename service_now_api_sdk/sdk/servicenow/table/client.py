@@ -120,6 +120,8 @@ class Records(BaseTableAPI):
     sysparm_suppress_pagination_header: bool = False
     sysparm_query_category = None
     sysparm_no_count: bool = False
+
+    response_timeout: int = 300
     __data = []
 
     def __init__(self, table: str):
@@ -186,6 +188,18 @@ class Records(BaseTableAPI):
         self.sysparm_no_count = no_count
         return self
 
+    def timeout(self, timeout: int):
+        """Time to get error on try request data (default: 300)
+
+        Args:
+            timeout (bool): time to get error on try request data (default: 300)
+
+        Returns:
+            TableAPI: Return self class
+        """
+        self.response_timeout = timeout
+        return self
+
     def _get_params(self) -> dict:
         params = super()._get_params()
 
@@ -222,10 +236,10 @@ class Records(BaseTableAPI):
             current_data = []
 
             if next_link:
-                result = self.http_client.get(next_link, params=params)
+                result = self.http_client.get(next_link, params=params, timeout=self.response_timeout)
             else:
                 result = self.http_client.get(
-                    f"{self.default_path}/{self.table}", params=params
+                    f"{self.default_path}/{self.table}", params=params, timeout=self.response_timeout
                 )
 
             if result.status_code != 200:
@@ -248,11 +262,13 @@ class Records(BaseTableAPI):
 
         except Exception as e:
             if retries > 0:
-                self.__request_helper(data, next_link=next_link, retries=retries - 1)
                 print("Error: " + str(e))
                 print("Retry in 30s")
                 sleep(30)
-            return
+                self.__request_helper(data, next_link=next_link, retries=retries - 1)
+
+            else:
+                raise RecordRetriesException(e)
 
     def __request_helper_without_next_link(
         self, data: list[dict] = None, retries=5
@@ -266,7 +282,7 @@ class Records(BaseTableAPI):
                 self.sysparm_offset = 0
 
             result = self.http_client.get(
-                path=f"{self.default_path}/{self.table}", params=params
+                path=f"{self.default_path}/{self.table}", params=params, timeout=self.response_timeout
             )
 
             if result.status_code != 200:
@@ -287,13 +303,13 @@ class Records(BaseTableAPI):
 
         except Exception as e:
             if retries > 0:
-                self.__request_helper(data=data, retries=retries - 1)
                 print("Error: " + str(e))
                 print("Retry in 30s")
                 sleep(30)
+                self.__request_helper_without_next_link(data=data, retries=retries - 1)
 
             else:
-                raise RecordRetriesException(e.__str__())
+                raise RecordRetriesException(e)
 
     def get(self):
         """[summary]
