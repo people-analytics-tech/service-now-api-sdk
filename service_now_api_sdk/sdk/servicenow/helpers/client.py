@@ -44,6 +44,7 @@ class Client:
         headers: dict = None,
         data=None,
         params: dict = None,
+        timeout: int = None
     ):
         if data is None:
             data = {}
@@ -58,6 +59,7 @@ class Client:
                 headers=headers,
                 data=json.dumps(data),
                 params=params,
+                timeout=timeout
             )
 
         if SERVICENOW_API_USER and SERVICENOW_API_PASSWORD:
@@ -68,35 +70,36 @@ class Client:
                 data=json.dumps(data),
                 params=params,
                 auth=(SERVICENOW_API_USER, SERVICENOW_API_PASSWORD),
+                timeout=timeout
             )
 
     def post(
-        self, path: str, headers: dict = None, data: dict = None, params: dict = None
+        self, path: str, headers: dict = None, data: dict = None, params: dict = None, timeout: int = None
     ):
         return self.__http_request(
-            method="POST", path=path, headers=headers, data=data, params=params
+            method="POST", path=path, headers=headers, data=data, params=params, timeout=timeout
         )
 
-    def get(self, path: str, headers: dict = None, params: dict = None):
+    def get(self, path: str, headers: dict = None, params: dict = None, timeout: int = None):
         return self.__http_request(
-            method="GET", path=path, headers=headers, params=params
+            method="GET", path=path, headers=headers, params=params, timeout=timeout
         )
 
     def put(
-        self, path: str, headers: dict = None, data: dict = None, params: dict = None
+        self, path: str, headers: dict = None, data: dict = None, params: dict = None, timeout: int = None
     ):
         return self.__http_request(
-            method="PUT", path=path, headers=headers, data=data, params=params
+            method="PUT", path=path, headers=headers, data=data, params=params, timeout=timeout
         )
 
     def patch(
-        self, path: str, headers: dict = None, data: dict = None, params: dict = None
+        self, path: str, headers: dict = None, data: dict = None, params: dict = None, timeout: int = None
     ):
         return self.__http_request(
-            method="PATCH", path=path, headers=headers, data=data, params=params
+            method="PATCH", path=path, headers=headers, data=data, params=params, timeout=timeout
         )
 
-    def delete(self, path: str, headers: dict = None, data: dict = None):
+    def delete(self, path: str, headers: dict = None, data: dict = None, timeout: int = None):
         return self.__http_request(
-            method="DELETE", path=path, headers=headers, data=data
+            method="DELETE", path=path, headers=headers, data=data, timeout=timeout
         )
