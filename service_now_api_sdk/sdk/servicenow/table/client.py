@@ -121,7 +121,7 @@ class Records(BaseTableAPI):
     sysparm_query_category = None
     sysparm_no_count: bool = False
 
-    response_timeout: int = None
+    response_timeout: int = 300
     __data = []
 
     def __init__(self, table: str):
@@ -189,10 +189,10 @@ class Records(BaseTableAPI):
         return self
 
     def timeout(self, timeout: int):
-        """Time to get error on try request data (default: 30)
+        """Time to get error on try request data (default: 300)
 
         Args:
-            timeout (bool): time to get error on try request data (default: 30)
+            timeout (bool): time to get error on try request data (default: 300)
 
         Returns:
             TableAPI: Return self class
