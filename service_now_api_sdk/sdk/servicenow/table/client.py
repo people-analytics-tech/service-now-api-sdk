@@ -494,7 +494,7 @@ class ProducerServiceCatalog(Client):
             raise ManagerRetriveException(data)
         return data
 
-    def get_catalog_item(self, sys_id: str):
+    def get_catalog_item(self, sys_id: str) -> dict:
         """Retrieves a catalog item information.
 
         Args:
