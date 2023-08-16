@@ -493,3 +493,21 @@ class ProducerServiceCatalog(Client):
         if result.status_code != 200:
             raise ManagerRetriveException(data)
         return data
+
+    def get_catalog_item(self, sys_id: str):
+        """Retrieves a catalog item information.
+
+        Args:
+            sys_id (str, mandatory): sys id of catalog item
+
+        Return:
+            dict: catalog item information
+        """
+        path = f"{sys_id}"
+        result = self.get(f"{self.default_path}/{path}")
+        data = result.json()
+
+        if result.status_code != 200:
+            raise RecordFilterException(data)
+
+        return data["result"]
