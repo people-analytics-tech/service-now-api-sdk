@@ -332,6 +332,7 @@ class Records(BaseTableAPI):
         )
         return self
 
+    @property
     def next(self):
         """[summary]
 
