@@ -239,7 +239,7 @@ class Records(BaseTableAPI):
 
         return params
 
-    def __request_helper(self, next_link="", retries=5):
+    def __request_helper(self, next_link="", retries=5) -> str:
         try:
             result = None
             params = self._get_params()
@@ -277,7 +277,7 @@ class Records(BaseTableAPI):
             else:
                 raise RecordRetriesException(e)
 
-    def __request_helper_without_next_link(self, retries=5) -> list[dict]:
+    def __request_helper_without_next_link(self, retries=5) -> int:
         try:
             params = self._get_params()
             if not self.sysparm_offset:
