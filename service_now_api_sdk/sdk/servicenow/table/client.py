@@ -11,18 +11,14 @@ from service_now_api_sdk.sdk.servicenow.table.exceptions import (
 
 
 class BaseTableAPI:
-    default_path = "api/now/table"
-    table = ""
-    http_client = Client()
-
-    sysparm_display_value = False
-    sysparm_exclude_reference_link = False
-    sysparm_fields = None
-    sysparm_query_no_domain = False
-    sysparm_view = ""
-
     def __init__(self, table: str) -> None:
-        super().__init__()
+        self.default_path = "api/now/table"
+        self.http_client = Client()
+        self.sysparm_display_value = False
+        self.sysparm_exclude_reference_link = False
+        self.sysparm_fields = None
+        self.sysparm_query_no_domain = False
+        self.sysparm_view = ""
         self.table = table
 
     def view(self, view: str):
@@ -95,9 +91,9 @@ class BaseTableAPI:
             params["sysparm_display_value"] = self.sysparm_display_value
 
         if self.sysparm_exclude_reference_link:
-            params[
-                "sysparm_exclude_reference_link"
-            ] = self.sysparm_exclude_reference_link
+            params["sysparm_exclude_reference_link"] = (
+                self.sysparm_exclude_reference_link
+            )
 
         if self.sysparm_view:
             params["sysparm_view"] = self.sysparm_view
@@ -113,19 +109,18 @@ class Records(BaseTableAPI):
     Ref. link: https://docs.servicenow.com/bundle/quebec-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html
     """
 
-    query = None
-
-    sysparm_limit: int = 500
-    sysparm_offset: int = None
-    sysparm_suppress_pagination_header: bool = False
-    sysparm_query_category = None
-    sysparm_no_count: bool = False
-
-    response_timeout: int = 300
-    __data = []
-
     def __init__(self, table: str):
         super().__init__(table=table)
+        self.sysparm_limit: int = 500
+        self.sysparm_offset: int = None
+        self.sysparm_suppress_pagination_header: bool = False
+        self.sysparm_query_category = None
+        self.sysparm_no_count: bool = False
+        self.sysparm_count: bool = False
+        self.response_timeout: int = 300
+        self.total_registers_sequence_request: int = 0
+        self.next_link_sequence_request: str = None
+        self.data = []
         self.query = QueryBuilder()
 
     def suppress_pagination_header(self, supress: bool):
@@ -188,6 +183,18 @@ class Records(BaseTableAPI):
         self.sysparm_no_count = no_count
         return self
 
+    def count(self, count: bool):
+        """Do not execute a select count(*) on table (default: false)
+
+        Args:
+            count (bool): True to execute a select count(*) on table (default: false)
+
+        Returns:
+            TableAPI: Return self class
+        """
+        self.sysparm_count = count
+        return self
+
     def timeout(self, timeout: int):
         """Time to get error on try request data (default: 300)
 
@@ -217,9 +224,9 @@ class Records(BaseTableAPI):
             params["sysparm_offset"] = self.sysparm_offset
 
         if self.sysparm_suppress_pagination_header:
-            params[
-                "sysparm_suppress_pagination_header"
-            ] = self.sysparm_suppress_pagination_header
+            params["sysparm_suppress_pagination_header"] = (
+                self.sysparm_suppress_pagination_header
+            )
 
         if self.sysparm_query_category:
             params["sysparm_query_category"] = self.sysparm_query_category
@@ -227,62 +234,59 @@ class Records(BaseTableAPI):
         if self.sysparm_no_count:
             params["sysparm_no_count"] = self.sysparm_no_count
 
+        if self.sysparm_count:
+            params["sysparm_count"] = self.sysparm_count
+
         return params
 
-    def __request_helper(self, data=[], next_link="", retries=5):
+    def __request_helper(self, next_link="", retries=5):
         try:
             result = None
             params = self._get_params()
-            current_data = []
-
             if next_link:
-                result = self.http_client.get(next_link, params=params, timeout=self.response_timeout)
+                result = self.http_client.get(
+                    next_link, params=params, timeout=self.response_timeout
+                )
             else:
                 result = self.http_client.get(
-                    f"{self.default_path}/{self.table}", params=params, timeout=self.response_timeout
+                    f"{self.default_path}/{self.table}",
+                    params=params,
+                    timeout=self.response_timeout,
                 )
-
             if result.status_code != 200:
                 text = result.text
                 raise RecordFilterException(text)
 
             if result.headers.get("content-type")[:16] == "application/json":
-                current_data = result.json()
-                data = data + current_data.get("result")
-
+                data = result.json()
+                self.data.extend(data.get("result"))
                 if result.links.get("next"):
                     next_link = (
                         result.links.get("next", {})
                         .get("url", "")
                         .replace(f"{os.environ['SERVICENOW_URL']}/", "")
                     )
-                    data = self.__request_helper(data, next_link=next_link)
-
-            return data
-
+                    return next_link
+                return None
         except Exception as e:
             if retries > 0:
                 print("Error: " + str(e))
                 print("Retry in 30s")
                 sleep(30)
-                self.__request_helper(data, next_link=next_link, retries=retries - 1)
-
+                self.__request_helper(next_link=next_link, retries=retries - 1)
             else:
                 raise RecordRetriesException(e)
 
-    def __request_helper_without_next_link(
-        self, data: list[dict] = None, retries=5
-    ) -> list[dict]:
+    def __request_helper_without_next_link(self, retries=5) -> list[dict]:
         try:
             params = self._get_params()
-            if not data:
-                data = []
-
             if not self.sysparm_offset:
                 self.sysparm_offset = 0
 
             result = self.http_client.get(
-                path=f"{self.default_path}/{self.table}", params=params, timeout=self.response_timeout
+                path=f"{self.default_path}/{self.table}",
+                params=params,
+                timeout=self.response_timeout,
             )
 
             if result.status_code != 200:
@@ -290,24 +294,16 @@ class Records(BaseTableAPI):
                 raise RecordFilterException(text)
 
             total_registers = int(result.headers["X-Total-Count"])
-
-            current_data = result.json()
-            data += current_data.get("result")
-
-            if self.sysparm_offset + self.sysparm_limit < total_registers:
-                self.sysparm_offset = self.sysparm_offset + self.sysparm_limit
-
-                self.__request_helper_without_next_link(data=data, retries=retries)
-
-            return data
+            data = result.json()
+            self.data.extend(data.get("result"))
+            return total_registers
 
         except Exception as e:
             if retries > 0:
                 print("Error: " + str(e))
                 print("Retry in 30s")
                 sleep(30)
-                self.__request_helper_without_next_link(data=data, retries=retries - 1)
-
+                self.__request_helper_without_next_link(retries=retries - 1)
             else:
                 raise RecordRetriesException(e)
 
@@ -317,16 +313,32 @@ class Records(BaseTableAPI):
         Returns:
             [type]: [description]
         """
-        params = self._get_params()
-        result = self.http_client.get(
-            f"{self.default_path}/{self.table}", params=params
+        self.data = []
+        if self.sysparm_suppress_pagination_header:
+            self.total_registers_sequence_request = (
+                self.__request_helper_without_next_link()
+            )
+            if (
+                self.sysparm_offset + self.sysparm_limit
+                < self.total_registers_sequence_request
+            ):
+                self.sysparm_offset = self.sysparm_offset + self.sysparm_limit
+            else:
+                self.sysparm_offset = None
+                self.total_registers_sequence_request = 0
+            return self
+        self.next_link_sequence_request = self.__request_helper(
+            self.next_link_sequence_request
         )
+        return self
 
-        data = result.json()
-        if result.status_code != 200:
-            raise RecordFilterException(data)
+    def next(self):
+        """[summary]
 
-        return data.get("result")
+        Returns:
+            [type]: [description]
+        """
+        return self.get()
 
     def all(self):
         """[summary]
@@ -334,12 +346,24 @@ class Records(BaseTableAPI):
         Returns:
             [type]: [description]
         """
-
+        self.data = []
         if self.sysparm_suppress_pagination_header:
-            return self.__request_helper_without_next_link()
+            while True:
+                total_registers = self.__request_helper_without_next_link()
+                if self.sysparm_offset + self.sysparm_limit < total_registers:
+                    self.sysparm_offset = self.sysparm_offset + self.sysparm_limit
+                else:
+                    self.sysparm_offset = None
+                    break
+            return self.data
 
         else:
-            return self.__request_helper()
+            next_link = None
+            while True:
+                next_link = self.__request_helper(next_link=next_link)
+                if not next_link:
+                    break
+            return self.data
 
 
 class Manager(BaseTableAPI):
@@ -374,9 +398,9 @@ class Manager(BaseTableAPI):
         params = super()._get_params()
 
         if self.sysparm_suppress_auto_sys_field:
-            params[
-                "sysparm_suppress_auto_sys_field"
-            ] = self.sysparm_suppress_auto_sys_field
+            params["sysparm_suppress_auto_sys_field"] = (
+                self.sysparm_suppress_auto_sys_field
+            )
 
         if self.sysparm_input_display_value:
             params["sysparm_input_display_value"] = self.sysparm_input_display_value
