@@ -273,7 +273,7 @@ class Records(BaseTableAPI):
                 print("Error: " + str(e))
                 print("Retry in 30s")
                 sleep(30)
-                self.__request_helper(next_link=next_link, retries=retries - 1)
+                return self.__request_helper(next_link=next_link, retries=retries - 1)
             else:
                 raise RecordRetriesException(e)
 
@@ -303,7 +303,7 @@ class Records(BaseTableAPI):
                 print("Error: " + str(e))
                 print("Retry in 30s")
                 sleep(30)
-                self.__request_helper_without_next_link(retries=retries - 1)
+                return self.__request_helper_without_next_link(retries=retries - 1)
             else:
                 raise RecordRetriesException(e)
 
