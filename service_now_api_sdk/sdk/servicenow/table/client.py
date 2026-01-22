@@ -430,7 +430,7 @@ class Manager(BaseTableAPI):
         result = self.http_client.delete(f"{self.default_path}/{self.table}/{sys_id}")
 
         data = result.json()
-        if result.http_client.status_code != 200:
+        if result.status_code != 200:
             raise ManagerRetriveException(data)
         return data
 
