@@ -429,10 +429,10 @@ class Manager(BaseTableAPI):
     def delete(self, sys_id: str):
         result = self.http_client.delete(f"{self.default_path}/{self.table}/{sys_id}")
 
-        data = result.json()
-        if result.status_code != 200:
-            raise ManagerRetriveException(data)
-        return data
+        if result.status_code != 204:
+            result.raise_for_status()
+
+        return None
 
     def full_update(self, sys_id: str, data: dict):
         result = self.http_client.put(
