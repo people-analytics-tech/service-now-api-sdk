@@ -11,32 +11,30 @@ from service_now_api_sdk.settings import (
 )
 
 
-def headers_replace(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        }
 
-        if SERVICENOW_API_TOKEN:
-            headers["Authorization"] = (f"Bearer {SERVICENOW_API_TOKEN}",)
-
-        if kwargs.get("headers"):
-            headers = {**headers, **kwargs.get["headers"]}
-
-        kwargs["headers"] = headers
-
-        return f(*args, **kwargs)
-
-    return decorated_function
 
 
 class Client:
     base_url = SERVICENOW_URL
     default_path = ""
 
-    @headers_replace
+    def __init__(self, host_url: str=None, user: str=None, password: str=None, api_token: str=None):
+        self.base_url = host_url or SERVICENOW_URL
+        self.api_token = api_token or SERVICENOW_API_TOKEN
+        self.user = user or SERVICENOW_API_USER
+        self.password = password or SERVICENOW_API_PASSWORD
+    
+    def headers_replace(self, default_headers: dict = None):
+        headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+        if self.api_token:
+            headers["Authorization"] = (f"Bearer {self.api_token}",)
+        if default_headers:
+            headers = {**headers, **default_headers}
+        default_headers = headers
+
     def __http_request(
         self,
         method: str,
@@ -52,7 +50,7 @@ class Client:
         if params is None:
             params = {}
 
-        if SERVICENOW_API_TOKEN:
+        if self.api_token:
             return requests.request(
                 method=method,
                 url=f"{self.base_url}/{path}",
@@ -62,14 +60,14 @@ class Client:
                 timeout=timeout
             )
 
-        if SERVICENOW_API_USER and SERVICENOW_API_PASSWORD:
+        if self.user and self.password:
             return requests.request(
                 method=method,
                 url=f"{self.base_url}/{path}",
                 headers=headers,
                 data=json.dumps(data),
                 params=params,
-                auth=(SERVICENOW_API_USER, SERVICENOW_API_PASSWORD),
+                auth=(self.user, self.password),
                 timeout=timeout
             )
 

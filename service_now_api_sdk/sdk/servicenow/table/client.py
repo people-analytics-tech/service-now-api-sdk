@@ -11,9 +11,9 @@ from service_now_api_sdk.sdk.servicenow.table.exceptions import (
 
 
 class BaseTableAPI:
-    def __init__(self, table: str) -> None:
+    def __init__(self, table: str, host_url: str=None, user: str=None, password: str=None, api_token: str=None) -> None:
         self.default_path = "api/now/table"
-        self.http_client = Client()
+        self.http_client = Client(host_url=host_url, user=user, password=password, api_token=api_token)
         self.sysparm_display_value = False
         self.sysparm_exclude_reference_link = False
         self.sysparm_fields = None
@@ -109,8 +109,8 @@ class Records(BaseTableAPI):
     Ref. link: https://docs.servicenow.com/bundle/quebec-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html
     """
 
-    def __init__(self, table: str):
-        super().__init__(table=table)
+    def __init__(self, table: str, host_url: str=None, user: str=None, password: str=None, api_token: str=None):
+        super().__init__(table=table, host_url=host_url, user=user, password=password, api_token=api_token)
         self.sysparm_limit: int = 500
         self.sysparm_offset: int = None
         self.sysparm_suppress_pagination_header: bool = False
